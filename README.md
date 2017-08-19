@@ -1,1 +1,36 @@
-# py_gps_timezone_converter_example
+# Получение наименования временной зоны по GPS координатам
+
+## Вариант в каталоге with_postgres
+
+- Установить требуемые пакеты выполнив в каталоге 'with postgres' команду
+```sh
+pip install -r requirements.txt 
+```
+
+- Установить расширение для PostgreSQL PostGis и выполнить настройку БД
+```sh
+CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;
+CREATE EXTENSION fuzzystrmatch;
+CREATE EXTENSION postgis_tiger_geocoder;
+```
+- Развернуть дамб бд
+```sh
+psql -d имя_базы_данных-а -f dump.sql -U имя_пользователя_базы_данных
+```
+- Создать хранимую процедуру из файла
+```sh
+psql -d имя_базы_данных-а -f get_tzname_by_gsp.sql -U имя_пользователя_базы_данных
+```
+- Использовать
+
+## Вариант в каталоге with_python_lib
+- Установить требуемые пакеты выполнив в каталоге 'with_python_lib' команду 
+```sh
+pip install -r requirements.txt
+```
+- Использовать
+
+### Выводы:
+Первый вариант использующий PostGIS требует длительного времени настройки и работает медленнее чем второй, из-за того, что тратится время на установку соединения с БД.
+Оба варианта работают офлайн. Второй вариант использует бесплатную библиотеку timezonefinder (содержит наиболее актуальные данные о временных зонах)
